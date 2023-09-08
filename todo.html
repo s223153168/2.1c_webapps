@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <!-- Include Vue 3 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.6/dist/vue.global.min.js"></script>
+    <!-- Include CSS for styling -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <h1>Todo App</h1>
+        <div class="input-container">
+            <input type="text" v-model="newTodo" @keyup.enter="addTodo" placeholder="Add a new task" class="input-text">
+            <button @click="addTodo" class="add-button">Add</button>
+        </div>
+        <ul class="todo-list">
+            <li v-for="(todo, index) in todos" :key="index" class="todo-item">
+                <input type="checkbox" v-model="todo.completed" class="checkbox">
+                <span :class="{ completed: todo.completed }" class="todo-text">{{ todo.text }}</span>
+                <button @click="removeTodo(index)" class="delete-button">Delete</button>
+            </li>
+        </ul>
+        <button @click="clearCompleted" class="clear-button">Clear Completed</button>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    newTodo: "",
+                    todos: []
+                };
+            },
+            methods: {
+                addTodo() {
+                    if (this.newTodo) {
+                        this.todos.push({ text: this.newTodo, completed: false });
+                        this.newTodo = "";
+                    }
+                },
+                removeTodo(index) {
+                    this.todos.splice(index, 1);
+                },
+                clearCompleted() {
+                    this.todos = this.todos.filter(todo => !todo.completed);
+                }
+            }
+        });
+
+        app.mount("#app");
+    </script>
+</body>
+</html>

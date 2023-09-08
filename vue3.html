@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 3 Concepts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f5f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        #app {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #007acc;
+        }
+        .toggle-button {
+            background-color: #007acc;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>Vue 3 Concepts</h1>
+        </header>
+
+        <main>
+            <section>
+                <h2>Conditional Rendering</h2>
+                <button class="toggle-button" @click="toggleMessage">Toggle Message</button>
+                <p v-if="showMessage">This message is shown using v-if.</p>
+                <p v-else>This message is shown using v-else.</p>
+
+                <button class="toggle-button" @click="toggleDetails">Toggle Details</button>
+                <p v-show="showDetails">This message can be shown or hidden using v-show.</p>
+            </section>
+
+            <section>
+                <h2>List of Items (v-for)</h2>
+                <ul>
+                    <li v-for="(item, index) in items" :key="index">
+                        {{ item }}
+                        <button class="toggle-button" @click="removeItem(index)">Remove</button>
+                    </li>
+                </ul>
+                <input type="text" v-model="newItem" @keyup.enter="addItem" placeholder="Enter new item">
+                <button class="toggle-button" @click="addItem">Add Item</button>
+            </section>
+
+            <section>
+                <h2>Form Input Handling</h2>
+                <input type="text" v-model="inputText" placeholder="Enter text">
+                <p>You entered: {{ inputText }}</p>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.6/dist/vue.global.min.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    showMessage: true,
+                    showDetails: true,
+                    items: ["Item 1", "Item 2", "Item 3"],
+                    newItem: "",
+                    inputText: ""
+                };
+            },
+            methods: {
+                toggleMessage() {
+                    this.showMessage = !this.showMessage;
+                },
+                toggleDetails() {
+                    this.showDetails = !this.showDetails;
+                },
+                addItem() {
+                    if (this.newItem) {
+                        this.items.push(this.newItem);
+                        this.newItem = "";
+                    }
+                },
+                removeItem(index) {
+                    this.items.splice(index, 1);
+                }
+            }
+        });
+
+        app.mount("#app");
+    </script>
+</body>
+</html>
